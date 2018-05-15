@@ -9,17 +9,18 @@
 -- 需要用到左连接
 -- select FNAME, FILM.FID, FTYPE, DNAME, length, IS3D, FILM.GRADE
 -- from FILM left join ACTIN on FILM.FID = ACTIN.FID
--- where ACTIN.FID is null;
-
+-- where ACTIN.FID is null
+-- order by DNAME ASC, GRADE DESC;
+-- 
 -- (3
 -- distinct 为去重关键字
 -- select distinct FILM.FID, FNAME, DNAME
 -- from FILM, SHOWING
 -- where FILM.FID = SHOWING.FID and YEARS < 2017;
 
--- （4 distinct
--- select distinct FID , SHOWING.TID, THEATER.TID
--- from  THEATER left join SHOWING on THEATER.TID = SHOWING.TID
+-- （4 xx
+-- select distinct THEATER.TID, FID
+-- from  THEATER left outer join SHOWING on THEATER.TID = SHOWING.TID;
 -- where SHOWING.TID is null;
 -- right join FILM on FILM.FID = SHOWING.FID;
 
@@ -100,17 +101,31 @@
 
 -- (17
 -- 两层连接查询
-select ACTOR.ACTID, ANAME, FILM.GRADE, FILM.FID
-from ACTOR, ACTIN, FILM
-where ACTOR.ACTID = ACTIN.ACTID and FILM.FID = ACTIN.FID
-and ACTIN.ACTID not in
-	(select ACTID from FILM, ACTIN
-    where FILM.GRADE< 85 and FILM.FID = ACTIN.FID);
+-- select ACTOR.ACTID, ANAME, FILM.GRADE, FILM.FID
+-- from ACTOR, ACTIN, FILM
+-- where ACTOR.ACTID = ACTIN.ACTID and FILM.FID = ACTIN.FID
+-- and ACTIN.ACTID not in
+-- 	(select ACTID from FILM, ACTIN
+--     where FILM.GRADE< 85 and FILM.FID = ACTIN.FID);
 
 -- (18
-
-
--- (19
+-- select ANAME, FNAME
+-- from ACTOR, ACTIN, FILM
+-- where ACTOR.ACTID = ACTIN.ACTID and FILM.FID = ACTIN.FID
+-- and ACTIN.FID in 
+-- 	(select FID from FILM
+--     where DNAME = '吴宇森');
+    
+-- (19 
+-- select distinct ACTOR.ACTID, ANAME, FNAME
+-- from ACTIN right join ACTOR on ACTOR.ACTID = ACTIN.ACTID
+-- 	left join FILM on FILM.FID = ACTIN.FID;
 
 
 -- (20
+-- select FILM.FID, FNAME
+-- from FILM, SHOWING
+-- where FILM.FID = SHOWING.FID and FILM.GRADE is null
+-- group by SHOWING.FID
+-- having count(1) > 3;
+
