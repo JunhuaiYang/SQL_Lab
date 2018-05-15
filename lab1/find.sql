@@ -65,22 +65,52 @@
 -- group by ACTIN.ACTID;
 
 -- (11
-select FNAME,min(YEARS) EARLY_YEARS,min(MONTHS) EARLY_MONTHS
-from FILM, SHOWING
-where FILM.FID = SHOWING.FID 
-group by SHOWING.FID;
+-- select FNAME,YEARS EARLY_YEARS,MONTHS EARLY_MONTHS
+-- from FILM, SHOWING
+-- where FILM.FID = SHOWING.FID 
+-- order by YEARS ASC, MONTHS ASC;
+
 
 -- (12
 
 
 
 -- (13
-
-
-
+-- select FNAME, count(1) NUM_COUNT
+-- from FILM, SHOWING
+-- where FILM.FID = SHOWING.FID
+-- group by SHOWING.FID;
 
 -- (14
-
-
+-- select distinct DNAME
+-- from FILM
+-- where FTYPE = '动作片' or FTYPE = '警匪片' or FTYPE = '枪战片';
 
 -- (15
+-- select FILM.FID, FNAME, TNAME, YEARS, MONTHS
+-- from FILM, THEATER, SHOWING
+-- where FILM.FID = SHOWING.FID and SHOWING.TID = THEATER.TID
+-- and FNAME like '战狼%'
+-- order by FNAME;
+
+-- (16  xx
+-- select TID, MONTHS, fid
+-- from SHOWING
+-- where (FID = 1 or FID = 2);
+
+-- (17
+-- 两层连接查询
+select ACTOR.ACTID, ANAME, FILM.GRADE, FILM.FID
+from ACTOR, ACTIN, FILM
+where ACTOR.ACTID = ACTIN.ACTID and FILM.FID = ACTIN.FID
+and ACTIN.ACTID not in
+	(select ACTID from FILM, ACTIN
+    where FILM.GRADE< 85 and FILM.FID = ACTIN.FID);
+
+-- (18
+
+
+-- (19
+
+
+-- (20
