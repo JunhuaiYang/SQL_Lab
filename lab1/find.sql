@@ -42,6 +42,45 @@
 -- group by DNAME
 -- having count(1) >= 2;
 
+-- （8
+-- select DNAME, count(1) NUM_FILM, avg(GRADE) AVG_GRADE
+-- from FILM
+-- group by DNAME
+-- having count(1) >= 2;
+
+-- (9
+-- 要用子查询才行
+-- select distinct DNAME, ACTIN.ACTID, ANAME
+-- from FILM, ACTIN, ACTOR
+-- where FILM.FID = ACTIN.FID and ACTOR.ACTID = ACTIN.ACTID
+-- 	and DNAME in
+-- 		(select DNAME from FILM
+--         group by DNAME
+--         having count(1) >= 2);
+        
+-- (10
+-- select ANAME, avg(GRADE)
+-- from ACTIN, ACTOR
+-- where ACTIN.ACTID = ACTOR.ACTID
+-- group by ACTIN.ACTID;
+
+-- (11
+select FNAME,min(YEARS) EARLY_YEARS,min(MONTHS) EARLY_MONTHS
+from FILM, SHOWING
+where FILM.FID = SHOWING.FID 
+group by SHOWING.FID;
+
+-- (12
 
 
- 
+
+-- (13
+
+
+
+
+-- (14
+
+
+
+-- (15
