@@ -18,11 +18,14 @@
 -- from FILM, SHOWING
 -- where FILM.FID = SHOWING.FID and YEARS < 2017;
 
--- （4 xx
--- select distinct THEATER.TID, FID
--- from  THEATER left outer join SHOWING on THEATER.TID = SHOWING.TID;
--- where SHOWING.TID is null;
--- right join FILM on FILM.FID = SHOWING.FID;
+-- （4 ok
+--  having 也可以用子查询
+-- select distinct SHOWING.FID
+-- from THEATER, FILM, SHOWING
+-- where FILM.FID = SHOWING.FID and THEATER.TID = SHOWING.TID
+-- group by SHOWING.FID
+-- having count(1) = (select count(*) from THEATER);
+
 
 
 --  (5
@@ -66,14 +69,32 @@
 -- group by ACTIN.ACTID;
 
 -- (11
--- select FNAME,YEARS EARLY_YEARS,MONTHS EARLY_MONTHS
--- from FILM, SHOWING
--- where FILM.FID = SHOWING.FID 
--- order by YEARS ASC, MONTHS ASC;
+-- select distinct FNAME, temp.YEARS, temp.MONTHS
+-- from FILM, SHOWING temp
+-- where FILM.FID = temp.FID 
+-- and not exists 
+-- 	(select * from SHOWING where FID = temp.FID and (YEARS < temp.YEARS or MONTHS < temp.MONTHS))
+-- and GRADE>=90;
 
 
 -- (12
+-- 相关子查询实现
+-- 1 xx
+-- select FNAME, temp.YEARS, temp.MONTHS, temp.TID
+-- from FILM, SHOWING temp
+-- where FILM.FID = temp.FID 
+-- and temp.MONTHS = (select min(MONTHS) from SHOWING where FID = temp.FID)
+-- and GRADE>=90;
 
+-- 2
+-- 相关子查询实现
+-- 取两个的or 刚好能对？
+-- select FNAME, temp.YEARS, temp.MONTHS, temp.TID
+-- from FILM, SHOWING temp
+-- where FILM.FID = temp.FID 
+-- and not exists 
+-- 	(select * from SHOWING where FID = temp.FID and (YEARS < temp.YEARS or MONTHS < temp.MONTHS))
+-- and GRADE>=90;
 
 
 -- (13
@@ -94,10 +115,14 @@
 -- and FNAME like '战狼%'
 -- order by FNAME;
 
--- (16  xx
--- select TID, MONTHS, fid
+-- (16  
+--  用子查询里操作
+-- select TID, YEARS, MONTHS, FID
 -- from SHOWING
--- where (FID = 1 or FID = 2);
+-- where (FID = 1 or FID = 2) and (YEARS, MONTHS,FID) in
+-- 	(select YEARS,MONTHS,FID from SHOWING group by 
+--     YEARS,MONTHS,FID having count(1)>1);
+
 
 -- (17
 -- 两层连接查询

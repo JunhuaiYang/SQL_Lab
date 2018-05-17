@@ -10,6 +10,7 @@ CREATE TRIGGER ZXC_XJ
       
       end$$
       
+      
 -- 	  UPDATE `FILM` SET `FTYPE` = '喜剧片' 
 -- show triggers;
 -- drop trigger ZXC_XJ;
